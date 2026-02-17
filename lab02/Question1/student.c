@@ -30,6 +30,38 @@
 #include <string.h>  // strlen
 
 bool isValid(const char *s) {
+    if (s == NULL) {
+        return false;
+    }
+
+    if (strlen(s) % 2 != 0) {
+        return false;
+    }
+
+    char stack[1000];
+    int top = -1;
+
+    for (int i = 0; s[i] != '\0'; i++) {
+        char value = s[i];
+    
+        if (value == '(' || value == '[' || value == '{') {
+            stack[++top] = value;
+        }
+    
+        else {
+            if (top == -1) {
+                return false;
+            }
+
+            if ((value == ')' && stack[top] != '(') || 
+            (value == ']' && stack[top] != '[') || 
+            (value == '}' && stack[top] != '{')) {
+                return false;
+            }
+            top--;
+        }
+    }
+    return top == -1;
     // TODO: Implement using a stack.
     //
     // Recommended approach:
@@ -53,7 +85,5 @@ bool isValid(const char *s) {
     //
     // Note:
     // - Input contains only bracket characters, per the prompt.
-
-    (void)s; // remove after implementing
     return false; // placeholder
 }
